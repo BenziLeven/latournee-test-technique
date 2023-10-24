@@ -1,6 +1,6 @@
 <template>
     <q-page class="row">
-        <div v-if="subcategories.length > 0" class="page-container">
+        <div v-if="!isLoading" class="page-container">
             <SubcategoryDisplay
                 v-for="subcategory in subcategories"
                 v-bind:key="subcategory.ID"
@@ -13,30 +13,30 @@
     </q-page>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref } from "vue";
+
+<script setup lang="ts">
+import { ref } from "vue";
 import { getLanding } from "../services";
+import type { SubCategory } from "../components/models";
 import SubcategoryDisplay from "../components/SubcategoryDisplay.vue";
-import type {SubCategory, Category} from "../components/models";
 
+const subcategories = ref<SubCategory[]>([]);
+const isLoading = ref(true);
 
-export default defineComponent({
-    components: { SubcategoryDisplay },
-    async beforeRouteEnter(to, from, next) {
-        const data = await getLanding();
-        next(vm => vm.setData(data));
-    },
-    data() {
-        return {
-            subcategories: [] as SubCategory[]
-        };
-    },
-    methods: {
-        setData(pageContent: Category) {
-            this.subcategories = pageContent["Sous-categories"];
-        }
+fetchPageContent();
+
+async function fetchPageContent() {
+    try {
+        isLoading.value = true;
+        const landing = await getLanding();
+        subcategories.value = landing["Sous-categories"];
+        isLoading.value = false;
+    } catch (e) {
+        console.error("Error: ", e);
+    } finally {
+        isLoading.value = false;
     }
-});
+}
 </script>
 
 <style scoped lang="scss">
