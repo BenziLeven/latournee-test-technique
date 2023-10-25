@@ -9,7 +9,7 @@
         <div class="price">{{ price }}</div>
         <div class="price-description">{{ priceDescription }}</div>
       </div>
-      <QBtn round color="primary text-black pull-right" icon="add" />
+      <QBtn round color="primary text-black pull-right" icon="add" @click="shoppingCart.addItem(product)"/>
     </div>
   </QCard>
 </template>
@@ -18,6 +18,10 @@
 import { QCard, QBtn } from "quasar";
 import { computed, defineProps } from "vue";
 import type { Product } from "./models";
+import { useShoppingCartStore } from "../stores/shopping-store";
+
+
+const shoppingCart = useShoppingCartStore();
 
 const { product } = defineProps<{
   product: Product;
