@@ -2,7 +2,7 @@ import { defineStore } from "pinia";
 import type { Product } from "src/components/models";
 
 
-type ShoppingCartItem = {
+export type ShoppingCartItem = {
     product: Product;
     quantity: number;
 }
