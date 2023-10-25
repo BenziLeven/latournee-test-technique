@@ -8,7 +8,7 @@ type ShoppingCartItem = {
 }
 
 
-export const useShoppingStore = defineStore("shoppingCart", {
+export const useShoppingCartStore = defineStore("shoppingCart", {
     state: () => ({
         items: [] as ShoppingCartItem[]
     }),
